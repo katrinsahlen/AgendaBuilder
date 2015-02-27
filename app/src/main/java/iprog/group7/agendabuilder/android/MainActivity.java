@@ -1,4 +1,4 @@
-package iprog.group7.agendabuilder;
+package iprog.group7.agendabuilder.android;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
