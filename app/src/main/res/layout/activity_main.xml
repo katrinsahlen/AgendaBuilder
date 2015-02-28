@@ -8,9 +8,41 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Within this frame the content for AddTaskView could be -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_big_view_height">
+
+            <TextView
+                android:text="@string/hello_world"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
+        <!-- Within this frame the content for DayView could be -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_big_view_height"
+            android:layout_marginTop="@dimen/activity_big_view_height">
+
+            <TextView
+                android:text="@string/hello_world"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:text="Button" />
+
+    </FrameLayout>
 
 </RelativeLayout>
