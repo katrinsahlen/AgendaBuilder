@@ -7,6 +7,9 @@ import android.view.MenuItem;
 
 import iprog.group7.agendabuilder.android.R;
 
+/**
+ * The activity controlling view AddTaskView
+ */
 public class AddTaskActivity extends ActionBarActivity {
 
     @Override

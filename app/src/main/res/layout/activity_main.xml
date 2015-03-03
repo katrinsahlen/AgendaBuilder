@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Within this frame the content for AddTaskView could be -->
+        <!-- Within this frame the content for TaskView could be -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/activity_big_view_height">
@@ -37,6 +37,7 @@
 
         </FrameLayout>
 
+        <!-- The button represent the current content of AddDayView -->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
