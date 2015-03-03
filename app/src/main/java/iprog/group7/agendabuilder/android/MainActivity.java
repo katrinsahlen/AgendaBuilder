@@ -1,19 +1,30 @@
 package iprog.group7.agendabuilder.android;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import iprog.group7.agendabuilder.android.view.AddDayView;
+import iprog.group7.agendabuilder.android.view.DayView;
+import iprog.group7.agendabuilder.android.view.TaskView;
+
 /**
  * The activity controlling views AddDayView, DayView and TaskView
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Instantiate views
+        // AddDayView addDayView = new AddDayView(findViewById(R.id.page_main_view_id));
+        DayView dayView = new DayView(findViewById(R.id.page_main_view_id));
+        TaskView taskView = new TaskView(findViewById(R.id.page_main_view_id));
+
     }
 
 
