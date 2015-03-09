@@ -1,10 +1,13 @@
 package iprog.group7.agendabuilder.android.view;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import iprog.group7.agendabuilder.android.R;
+import iprog.group7.agendabuilder.model.Activity;
+import iprog.group7.agendabuilder.model.AgendaModel;
 
 /**
  * Upper view in MainActivity
