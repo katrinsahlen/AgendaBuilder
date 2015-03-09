@@ -11,6 +11,7 @@
     <string name="start_time">Start time:</string>
     <string name="end_time">End time:</string>
     <string name="total_length">Total length:</string>
+    <string name="title_activity_main_activity2">MainActivity2Activity</string>
 
     <string-array name="type_array">
         <item>Presentation</item>

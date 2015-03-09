@@ -20,6 +20,7 @@
 
             <Button
                 android:id="@+id/add_task_button"
+                android:onClick="addTask"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/activity_medium_text_background"
                 android:layout_gravity="top|center_horizontal"
@@ -59,6 +60,7 @@
 
                 <!-- The added tasks will be added in this relative layout -->
                 <RelativeLayout
+                    tools:ignore="MergeRootFrame"
                     android:id="@+id/box_tasks_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -171,6 +173,7 @@
 
                 <!-- The added tasks will be added in this relative layout -->
                 <RelativeLayout
+                    tools:ignore="MergeRootFrame"
                     android:id="@+id/box_day_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -182,6 +185,7 @@
 
         <!-- The button represent the current content of AddDayView -->
         <Button
+            android:id="@+id/add_day_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/activity_medium_text_background"
             android:layout_gravity="bottom|center_horizontal"
