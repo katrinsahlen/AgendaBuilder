@@ -3,6 +3,7 @@ package iprog.group7.agendabuilder.android.view;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -24,6 +25,8 @@ public class AddTaskView implements Observer{
     AgendaModel model;
     Context context;
 
+    Button btnCancel, btnSave;
+
 
 
     // Selection of the spinner
@@ -31,6 +34,11 @@ public class AddTaskView implements Observer{
 
     public AddTaskView(Context context, Activity activity, AgendaModel model) {
         this.model = model;
+
+        btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        btnSave = (Button) view.findViewById(R.id.btnSave);
+
+
 
         //observer
         model.addObserver(this);
