@@ -1,9 +1,11 @@
 package iprog.group7.agendabuilder.android;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import iprog.group7.agendabuilder.android.R;
 
@@ -39,5 +41,10 @@ public class AddTaskActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void returnToMain(View v){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

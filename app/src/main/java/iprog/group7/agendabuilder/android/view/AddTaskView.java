@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -23,9 +25,9 @@ public class AddTaskView implements Observer{
     View view;
     Activity activity;
     AgendaModel model;
-    Context context;
 
     Button btnCancel, btnSave;
+    EditText txtName, txtLength, txtDescription;
 
 
 
@@ -45,14 +47,14 @@ public class AddTaskView implements Observer{
 
 
         //Name
-
+        txtName = (EditText) view.findViewById(R.id.txtName);
         //Length
+        txtLength = (EditText) view.findViewById(R.id.txtLength);
 
         //Type list - completed using xml string
-
+        spinnerType = (Spinner) view.findViewById(R.id.spinnerType);
         //Description
-
-
+        txtDescription = (EditText) view.findViewById(R.id.txtdescription);
     }
 
     @Override
