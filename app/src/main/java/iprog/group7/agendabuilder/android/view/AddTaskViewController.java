@@ -32,13 +32,19 @@ public class AddTaskViewController implements View.OnClickListener {
         this.view = view;
 
         if (v == view.btnSave) {
-            //add data to model
+            //add attributes to activity
 
             //add name
-            a.setName();
+            a.setName(view.txtName.getText().toString());
             //add length
+            a.setLength(Integer.parseInt(view.txtLength.getText().toString()));
             //add type
+            //a.setType();
             //add description
+            a.setDescription(view.txtDescription.getText().toString());
+
+            //finally add activity to AgendaModel
+            model.addParkedActivity(a);
         }
 
     }
