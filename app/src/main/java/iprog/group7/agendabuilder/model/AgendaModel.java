@@ -22,6 +22,20 @@ public class AgendaModel extends Observable {
     }
 
     /**
+     * returns the day at the provided index. Index provided starts at 1 (day 1)
+     */
+    public Day getDay(int index) {
+        return days.get(index-1);
+    }
+
+    /**
+     * returns the number of days added to the model
+     */
+    public int getNumberOfDays() {
+        return days.size();
+    }
+
+    /**
      * add an activity to model
      */
     public void addActivity(Activity act, Day day, int position) {
