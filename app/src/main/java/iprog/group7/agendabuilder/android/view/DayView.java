@@ -3,7 +3,6 @@ package iprog.group7.agendabuilder.android.view;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Observable;
@@ -19,19 +18,28 @@ public class DayView implements Observer {
 
     View view;
     AgendaModel model;
-    Button addDay;
+    Button addDay, previousDay, nextDay;
+    TextView whichDayTitle, endTime, totalLength;
+    EditText startTime;
 
     public DayView(View view, AgendaModel model) {
 
         this.view = view;
         this.model = model;
         model.addObserver(this);
-        TextView whichDayTitle = (TextView) view.findViewById(R.id.which_day_title);
-        EditText startTime = (EditText) view.findViewById(R.id.start_time);
-        TextView endTime = (TextView) view.findViewById(R.id.end_time);
-        TextView totalLength = (TextView) view.findViewById(R.id.total_length);
-        RelativeLayout boxDayLayout = (RelativeLayout) view.findViewById(R.id.box_day_layout);
+
+        whichDayTitle = (TextView) view.findViewById(R.id.which_day_title);
+        startTime = (EditText) view.findViewById(R.id.start_time);
+        endTime = (TextView) view.findViewById(R.id.end_time);
+        totalLength = (TextView) view.findViewById(R.id.total_length);
+
+        // RelativeLayout boxDayLayout = (RelativeLayout) view.findViewById(R.id.box_day_layout);
+
         addDay = (Button) view.findViewById(R.id.add_day_button);
+        previousDay = (Button) view.findViewById(R.id.previous_day_button);
+        nextDay = (Button) view.findViewById(R.id.next_day_button);
+
+        // startTime.setText("08:00");
 
     }
 

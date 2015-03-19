@@ -3,6 +3,7 @@ package iprog.group7.agendabuilder.android;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -49,9 +50,12 @@ public class MainActivity extends Activity {
 
 
     public void addTask(View view) {
-        // Intent intent = new Intent(this, AddTaskActivity.class);
-        // startActivity(intent);
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        startActivity(intent);
+        // onResume();
+        finish();
 
+        /**
         // Create new fragment
         // FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction = getFragmentManager().beginTransaction();
@@ -65,7 +69,7 @@ public class MainActivity extends Activity {
         // }
 
         // Commit the transaction
-        transaction.commit();
+        transaction.commit(); */
 
     }
 
