@@ -59,12 +59,11 @@
                     android:background="@color/black_overlay"/>
 
                 <!-- The added tasks will be added in this relative layout -->
-                <RelativeLayout
-                    tools:ignore="MergeRootFrame"
+                <ListView
                     android:id="@+id/box_tasks_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                </RelativeLayout>
+                </ListView>
 
             </FrameLayout>
 
@@ -173,12 +172,11 @@
                     android:background="@color/black_overlay"/>
 
                 <!-- The added tasks will be added in this relative layout -->
-                <RelativeLayout
-                    tools:ignore="MergeRootFrame"
+                <ListView
                     android:id="@+id/box_day_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                </RelativeLayout>
+                </ListView>
 
             </FrameLayout>
 

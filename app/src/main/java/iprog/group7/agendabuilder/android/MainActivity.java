@@ -1,15 +1,17 @@
 package iprog.group7.agendabuilder.android;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import iprog.group7.agendabuilder.android.view.DayView;
 import iprog.group7.agendabuilder.android.view.MainViewClickController;
@@ -23,16 +25,11 @@ import iprog.group7.agendabuilder.model.AgendaModel;
 public class MainActivity extends Activity {
 
     AgendaModel model;
-    // Set<TaskFragment> fragments;
-    FragmentTransaction transaction;
-    int a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        a = 0;
 
         model = ((AgendaBuilderApplication) this.getApplication()).getModel();
 
@@ -43,8 +40,53 @@ public class MainActivity extends Activity {
         MainViewClickController mainViewClickController = new MainViewClickController(model, dayView);
         MainViewDragController mainViewDragController = new MainViewDragController(model, dayView, taskView);
 
-        // transaction = getFragmentManager().beginTransaction();
-        // transaction.commit();
+        setupActivities();
+
+    }
+
+    private void setupActivities() {
+        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Demo", "Demo descr", 30, 1));
+        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Brainstorming", "Brainstorming descr", 60, 2));
+        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("QA session", "QA session descr", 20, 3));
+        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Coffee break", "Coffee break descr", 10, 4));
+
+        List<iprog.group7.agendabuilder.model.Activity> parkedActivities = model.getParkedActivites();
+
+        final List<String> taskBoxTasks = new ArrayList<>();
+        final List<String> dayBoxTasks = new ArrayList<>();
+        for (iprog.group7.agendabuilder.model.Activity a : parkedActivities) {
+            taskBoxTasks.add(a.getName());
+        }
+
+        final ListView boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
+        final ListView boxDayLayout = (ListView) findViewById(R.id.box_day_layout);
+
+        final ArrayAdapter<String> adapterBoxTasksLayout = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, taskBoxTasks);
+        final ArrayAdapter<String> adapterBoxDayLayout = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dayBoxTasks);
+        boxTasksLayout.setAdapter(adapterBoxTasksLayout);
+        boxDayLayout.setAdapter(adapterBoxDayLayout);
+
+        boxTasksLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String itemValue = (String) boxTasksLayout.getItemAtPosition(position);
+                dayBoxTasks.add(itemValue);
+                taskBoxTasks.remove(itemValue);
+                adapterBoxDayLayout.notifyDataSetChanged();
+                adapterBoxTasksLayout.notifyDataSetChanged();
+            }
+        });
+
+        boxTasksLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String itemValue = (String) boxTasksLayout.getItemAtPosition(position);
+                dayBoxTasks.add(itemValue);
+                taskBoxTasks.remove(itemValue);
+                adapterBoxDayLayout.notifyDataSetChanged();
+                adapterBoxTasksLayout.notifyDataSetChanged();
+            }
+        });
 
     }
 
@@ -52,25 +94,7 @@ public class MainActivity extends Activity {
     public void addTask(View view) {
         Intent intent = new Intent(this, AddTaskActivity.class);
         startActivity(intent);
-        // onResume();
         finish();
-
-        /**
-        // Create new fragment
-        // FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction = getFragmentManager().beginTransaction();
-        TaskFragment fragment = new TaskFragment();
-        // fragments.add(fragment);
-
-        // Add new fragment to the transaction and commit
-        transaction.add(R.id.box_tasks_layout, fragment);
-        // for (TaskFragment f : fragments) {
-            // transaction.add(R.id.box_tasks_layout, f);
-        // }
-
-        // Commit the transaction
-        transaction.commit(); */
-
     }
 
 
@@ -96,19 +120,4 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class TaskFragment extends Fragment {
-
-        public TaskFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main_activity_task, container, false);
-            return rootView;
-        }
-
-    }
 }
