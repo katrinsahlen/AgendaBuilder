@@ -1,8 +1,12 @@
 package iprog.group7.agendabuilder.android;
 
 import android.app.Activity;
+import android.app.LauncherActivity;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +29,9 @@ import iprog.group7.agendabuilder.model.AgendaModel;
 public class MainActivity extends Activity {
 
     AgendaModel model;
+    List<String> taskBoxTasks, dayBoxTasks;
+    ListView boxTasksLayout, boxDayLayout;
+    ArrayAdapter<String> adapterBoxTasksLayout, adapterBoxDayLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,48 +59,44 @@ public class MainActivity extends Activity {
 
         List<iprog.group7.agendabuilder.model.Activity> parkedActivities = model.getParkedActivites();
 
-        final List<String> taskBoxTasks = new ArrayList<>();
-        final List<String> dayBoxTasks = new ArrayList<>();
+        taskBoxTasks = new ArrayList<>();
+        dayBoxTasks = new ArrayList<>();
         for (iprog.group7.agendabuilder.model.Activity a : parkedActivities) {
             taskBoxTasks.add(a.getName());
         }
 
-        final ListView boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
-        final ListView boxDayLayout = (ListView) findViewById(R.id.box_day_layout);
+        boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
+        boxDayLayout = (ListView) findViewById(R.id.box_day_layout);
 
-        final ArrayAdapter<String> adapterBoxTasksLayout = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, taskBoxTasks);
-        final ArrayAdapter<String> adapterBoxDayLayout = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dayBoxTasks);
+        adapterBoxTasksLayout = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, taskBoxTasks);
+        adapterBoxDayLayout = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dayBoxTasks);
         boxTasksLayout.setAdapter(adapterBoxTasksLayout);
         boxDayLayout.setAdapter(adapterBoxDayLayout);
 
-        boxTasksLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String itemValue = (String) boxTasksLayout.getItemAtPosition(position);
-                dayBoxTasks.add(itemValue);
-                taskBoxTasks.remove(itemValue);
-                adapterBoxDayLayout.notifyDataSetChanged();
-                adapterBoxTasksLayout.notifyDataSetChanged();
-            }
-        });
+        DragTaskListener dragTaskListener = new DragTaskListener();
 
-        boxTasksLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        boxTasksLayout.setOnDragListener(dragTaskListener);
+        boxDayLayout.setOnDragListener(dragTaskListener);
+
+        AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String itemValue = (String) boxTasksLayout.getItemAtPosition(position);
-                dayBoxTasks.add(itemValue);
-                taskBoxTasks.remove(itemValue);
-                adapterBoxDayLayout.notifyDataSetChanged();
-                adapterBoxTasksLayout.notifyDataSetChanged();
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadow = new DragTaskShadowBuilder(view);
+                view.startDrag(data, shadow, parent.getItemAtPosition(position), 0);
+                return true;
             }
-        });
+        };
+
+        boxTasksLayout.setOnItemLongClickListener(onItemLongClickListener);
+        boxDayLayout.setOnItemLongClickListener(onItemLongClickListener);
 
     }
-
 
     public void addTask(View view) {
         Intent intent = new Intent(this, AddTaskActivity.class);
         startActivity(intent);
+        // this.onPause();
         finish();
     }
 
@@ -120,4 +123,58 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Modified example on an OnDragListener from developer.android.com
+     */
+    public class DragTaskListener implements View.OnDragListener {
+
+        @Override
+        public boolean onDrag(View v, DragEvent event) {
+
+            final int action = event.getAction();
+
+            switch(action) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    // Determines if this View can accept the dragged data
+                    if (event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                        v.invalidate();
+                        return true;
+                    }
+                    return false;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    v.invalidate();
+                    return true;
+                case DragEvent.ACTION_DRAG_LOCATION:
+                    return true;
+                case DragEvent.ACTION_DRAG_EXITED:
+                    v.invalidate();
+                    return true;
+                case DragEvent.ACTION_DROP:
+                    // ClipData.Item item = event.getClipData().getItemAt(0);
+                    Object item = event.getLocalState();
+                    String task = (String) item;
+                    if (v == boxTasksLayout) {
+                        if (!taskBoxTasks.contains(task)) {
+                            taskBoxTasks.add(task);
+                            dayBoxTasks.remove(task);
+                        }
+                    } else if (v == boxDayLayout) {
+                        if (!dayBoxTasks.contains(task)) {
+                            dayBoxTasks.add(task);
+                            taskBoxTasks.remove(task);
+                        }
+                    }
+                    adapterBoxDayLayout.notifyDataSetChanged();
+                    adapterBoxTasksLayout.notifyDataSetChanged();
+                    v.invalidate();
+                    return true;
+                case DragEvent.ACTION_DRAG_ENDED:
+                    v.invalidate();
+                    return true;
+                default:
+                    break;
+            }
+            return false;
+        }
+    }
 }
