@@ -54,13 +54,9 @@ public class MainActivity extends Activity {
 
     public void addTask(View view) {
         Intent intent = new Intent(this, AddTaskActivity.class);
-        startActivity(intent);
         String source = "new";
         intent.putExtra(SOURCE, source);
-        // onResume();
-        finish();
-
-
+        startActivity(intent);
 
         /**
          // Create new fragment
@@ -77,6 +73,26 @@ public class MainActivity extends Activity {
 
          // Commit the transaction
          transaction.commit(); */
+
+        // onResume();
+        finish();
+
+        /**
+        // Create new fragment
+        // FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction = getFragmentManager().beginTransaction();
+        TaskFragment fragment = new TaskFragment();
+        // fragments.add(fragment);
+
+        // Add new fragment to the transaction and commit
+        transaction.add(R.id.box_tasks_layout, fragment);
+        // for (TaskFragment f : fragments) {
+            // transaction.add(R.id.box_tasks_layout, f);
+        // }
+
+        // Commit the transaction
+        transaction.commit(); */
+
 
     }
 
