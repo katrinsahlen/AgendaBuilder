@@ -27,6 +27,9 @@ import iprog.group7.agendabuilder.model.Day;
  */
 public class MainActivity extends Activity {
 
+
+    public final static String SOURCE = "";
+
     AgendaModel model;
     Day currentDay;
     ListView boxTasksLayout, boxDayLayout;
@@ -46,17 +49,6 @@ public class MainActivity extends Activity {
 
         MainViewClickController mainViewClickController = new MainViewClickController(model, dayView);
         MainViewDragController mainViewDragController = new MainViewDragController(model, dayView, taskView);
-
-        setupActivities();
-
-    }
-
-    private void setupActivities() {
-        // Activities added for testing
-        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Demo", "Demo descr", 30, 1));
-        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Brainstorming", "Brainstorming descr", 60, 2));
-        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("QA session", "QA session descr", 20, 3));
-        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Coffee break", "Coffee break descr", 10, 4));
 
         boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
         boxDayLayout = (ListView) findViewById(R.id.box_day_layout);
@@ -87,11 +79,29 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapterBoxDayLayout.notifyDataSetChanged();
+        adapterBoxTasksLayout.notifyDataSetChanged();
+    }
+
+    private void setupActivities() {
+        // Activities added for testing
+        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Demo", "Demo descr", 30, 1));
+        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Brainstorming", "Brainstorming descr", 60, 2));
+        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("QA session", "QA session descr", 20, 3));
+        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Coffee break", "Coffee break descr", 10, 4));
+    }
+
     public void addTask(View view) {
         Intent intent = new Intent(this, AddTaskActivity.class);
+
+
+        intent.putExtra(SOURCE, "new");
         startActivity(intent);
-        // this.onPause();
-        finish();
+        onPause();
+
     }
 
 
@@ -116,6 +126,7 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * Modified example on an OnDragListener from developer.android.com
