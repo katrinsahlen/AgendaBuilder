@@ -190,7 +190,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     iprog.group7.agendabuilder.model.Activity item = (iprog.group7.agendabuilder.model.Activity) event.getLocalState();
                     List<iprog.group7.agendabuilder.model.Activity> parkedActivities, dayActivities;
                     parkedActivities = model.getParkedActivites();
-                    dayActivities = model.getCurrentDay().getActivities();
+                    dayActivities = model.getDay(model.getCurrentDayIndex()).getActivities();
                     if (v == boxTasksLayout) {
                         if (!parkedActivities.contains(item)) {
                             int currentPosition = 0;
@@ -200,7 +200,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                 }
                                 currentPosition++;
                             }
-                            model.moveActivity(model.getCurrentDay(), currentPosition, null, parkedActivities.size());
+                            model.moveActivity(model.getDay(model.getCurrentDayIndex()), currentPosition, null, parkedActivities.size());
                         }
                     } else if (v == boxDayLayout) {
                         if (!dayActivities.contains(item)) {
@@ -211,7 +211,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                 }
                                 currentPosition++;
                             }
-                            model.moveActivity(null, currentPosition, model.getCurrentDay(), dayActivities.size());
+                            model.moveActivity(null, currentPosition, model.getDay(model.getCurrentDayIndex()), dayActivities.size());
                         }
                     }
                     adapterBoxDayLayout.notifyDataSetChanged();
