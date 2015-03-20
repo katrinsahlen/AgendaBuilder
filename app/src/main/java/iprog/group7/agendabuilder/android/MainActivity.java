@@ -150,7 +150,7 @@ public class MainActivity extends Activity {
                     dayActivities = currentDay.getActivities();
                     if (v == boxTasksLayout) {
                         if (!parkedActivities.contains(item)) {
-                            int currentPosition = 1;
+                            int currentPosition = 0;
                             for (iprog.group7.agendabuilder.model.Activity a : dayActivities) {
                                 if (a == item) {
                                     break;
