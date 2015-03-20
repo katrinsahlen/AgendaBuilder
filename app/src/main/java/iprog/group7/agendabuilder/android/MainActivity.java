@@ -53,8 +53,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
         boxDayLayout = (ListView) findViewById(R.id.box_day_layout);
 
-        adapterBoxTasksLayout = new TaskArrayAdapter(model, model.getDay(currentDayIndex), this, android.R.layout.simple_list_item_1, model.getParkedActivites());
-        adapterBoxDayLayout = new TaskArrayAdapter(model, model.getDay(currentDayIndex), this, android.R.layout.simple_list_item_1, model.getDay(currentDayIndex).getActivities());
+        adapterBoxTasksLayout = new TaskArrayAdapter(model, this, android.R.layout.simple_list_item_1, model.getParkedActivites());
+        adapterBoxDayLayout = new TaskArrayAdapter(model, this, android.R.layout.simple_list_item_1, model.getDay(currentDayIndex).getActivities());
 
         boxTasksLayout.setAdapter(adapterBoxTasksLayout);
         boxDayLayout.setAdapter(adapterBoxDayLayout);
