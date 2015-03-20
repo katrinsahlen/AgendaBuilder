@@ -11,11 +11,12 @@ import iprog.group7.agendabuilder.model.Activity;
 import iprog.group7.agendabuilder.model.AgendaModel;
 
 
+
 public class AddTaskViewController implements View.OnClickListener {
 
     AddTaskView view;
     AgendaModel model;
-    Activity a;
+    Activity a = new Activity("a", "a", 5, 1);
     AddTaskActivity act;
 
 
@@ -31,6 +32,7 @@ public class AddTaskViewController implements View.OnClickListener {
     public void onClick(View v) {
         this.model = model;
         this.view = view;
+
 
         if (v == view.btnSave) {
             //add attributes to activity
@@ -48,7 +50,9 @@ public class AddTaskViewController implements View.OnClickListener {
             model.addParkedActivity(a);
 
             //return to main
-            act.returnToMain(v);
+            Intent intent = new Intent(v.getContext(), MainActivity.class);
+            v.getContext().startActivity(intent);
+
 
         }
 

@@ -22,34 +22,36 @@ import iprog.group7.agendabuilder.model.AgendaModel;
  */
 public class AddTaskView implements Observer{
 
-    View view;
+    View view = null;
     Activity activity;
-    AgendaModel model;
+    AgendaModel model = null;
 
     Button btnCancel, btnSave;
     EditText txtName, txtLength, txtDescription;
-    // Selection of the spinner
     Spinner spinnerType;
 
-    public AddTaskView(Context context, Activity activity, AgendaModel model) {
+    public AddTaskView(View view, AgendaModel model) {
         this.model = model;
+        this.view = view;
 
-        btnCancel = (Button) view.findViewById(R.id.btnCancel);
-        btnSave = (Button) view.findViewById(R.id.btnSave);
+
 
         //observer
         model.addObserver(this);
+        //buttons
 
+        this.btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        this.btnSave = (Button) view.findViewById(R.id.btnSave);
 
         //Name
-        txtName = (EditText) view.findViewById(R.id.txtName);
+        this.txtName = (EditText) view.findViewById(R.id.txtName);
         //Length
-        txtLength = (EditText) view.findViewById(R.id.txtLength);
-
+        this.txtLength = (EditText) view.findViewById(R.id.txtLength);
         //Type list - completed using xml string
-        spinnerType = (Spinner) view.findViewById(R.id.spinnerType);
+        this.spinnerType = (Spinner) view.findViewById(R.id.spinnerType);
         //Description
-        txtDescription = (EditText) view.findViewById(R.id.txtDescription);
+        this.txtDescription = (EditText) view.findViewById(R.id.txtDescription);
+
     }
 
     @Override

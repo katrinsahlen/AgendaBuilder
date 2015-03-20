@@ -8,16 +8,25 @@ import android.view.MenuItem;
 import android.view.View;
 
 import iprog.group7.agendabuilder.android.R;
+import iprog.group7.agendabuilder.android.view.AddTaskView;
+import iprog.group7.agendabuilder.android.view.AddTaskViewController;
+import iprog.group7.agendabuilder.model.AgendaModel;
 
 /**
  * The activity controlling view AddTaskView
  */
 public class AddTaskActivity extends Activity {
 
+    AddTaskView mainView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        AgendaModel model = ((AgendaBuilderApplication) this.getApplication()).getModel();
+        mainView = new AddTaskView(findViewById(R.id.activity_add_task_id), model);
+
+        AddTaskViewController clickController = new AddTaskViewController(model, mainView);
     }
 
 
