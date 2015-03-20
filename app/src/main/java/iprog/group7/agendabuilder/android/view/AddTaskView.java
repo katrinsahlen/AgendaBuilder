@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import iprog.group7.agendabuilder.android.AddTaskActivity;
 import iprog.group7.agendabuilder.android.R;
 import iprog.group7.agendabuilder.model.Activity;
 import iprog.group7.agendabuilder.model.AgendaModel;
@@ -27,16 +26,15 @@ public class AddTaskView implements Observer{
     Activity activity;
     AgendaModel model = null;
 
-    String source;
-
     Button btnCancel, btnSave;
     EditText txtName, txtLength, txtDescription;
     Spinner spinnerType;
 
-
     public AddTaskView(View view, AgendaModel model) {
         this.model = model;
         this.view = view;
+
+
 
         //observer
         model.addObserver(this);
@@ -54,27 +52,10 @@ public class AddTaskView implements Observer{
         //Description
         this.txtDescription = (EditText) view.findViewById(R.id.txtDescription);
 
-        //check if any data needs to be loaded (if editing activity)
-        if (source.equals("edit"))
-        {
-            //load data from object
-            //TODO: load data
-        }
-
     }
 
     @Override
     public void update(Observable observable, Object data) {
 
     }
-
-    public String getSource()
-    {
-        return this.source;
-    }
-    public void setSource(String val)
-    {
-        this.source = val;
-    }
-
 }

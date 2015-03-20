@@ -22,22 +22,14 @@ import iprog.group7.agendabuilder.model.AgendaModel;
 public class AddTaskActivity extends Activity {
 
     AddTaskView mainView;
-    public String source;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_task);
 
-        //get source msg (new or edit)
-        Intent intent = getIntent();
-        source = intent.getStringExtra(MainActivity.SOURCE);
-
-        //set model & view
         AgendaModel model = ((AgendaBuilderApplication) this.getApplication()).getModel();
         mainView = new AddTaskView(findViewById(R.id.activity_add_task_id), model);
-        //dump source into view
-        mainView.setSource(source);
-        //set controller
+
         AddTaskViewController clickController = new AddTaskViewController(model, mainView);
     }
 
