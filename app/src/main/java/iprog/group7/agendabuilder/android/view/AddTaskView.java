@@ -27,16 +27,18 @@ public class AddTaskView implements Observer{
     Activity activity;
     AgendaModel model = null;
 
-    String source;
+    private String source = "d";
 
     Button btnCancel, btnSave;
     EditText txtName, txtLength, txtDescription;
     Spinner spinnerType;
 
 
-    public AddTaskView(View view, AgendaModel model) {
+
+    public AddTaskView(View view, AgendaModel model, String src) {
         this.model = model;
         this.view = view;
+        this.source = src;
 
         //observer
         model.addObserver(this);
@@ -54,6 +56,23 @@ public class AddTaskView implements Observer{
         //Description
         this.txtDescription = (EditText) view.findViewById(R.id.txtDescription);
 
+        txtName.setText(source);
+
+        //NEW ACTIVITY
+        if (source.equals("new"))
+        {
+            //set default values
+           txtName.setText("(Enter Name)");
+           txtLength.setText("30");
+           txtDescription.setText("(Enter Description)");
+           spinnerType.setSelection(0);
+
+        //EDIT ACTIVITY
+        } else if (source.equals("edit"))
+        {
+            //load data from object
+            //TODO: load data
+        }
 
     }
 

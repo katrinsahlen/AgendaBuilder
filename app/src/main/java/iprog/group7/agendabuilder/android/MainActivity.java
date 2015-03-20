@@ -54,10 +54,10 @@ public class MainActivity extends Activity {
 
     public void addTask(View view) {
         Intent intent = new Intent(this, AddTaskActivity.class);
-        startActivity(intent);
 
-        String source = "new";
-        intent.putExtra(SOURCE, source);
+
+        intent.putExtra(SOURCE, "new");
+        startActivity(intent);
         // onResume();
         finish();
 
