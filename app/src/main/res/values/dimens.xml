@@ -9,7 +9,8 @@
 
     <dimen name="activity_text_box_width">230dp</dimen> -->
     <dimen name="activity_activities_box_height">220dp</dimen>
-    <dimen name="activity_task_description_width">180dp</dimen>
+    <dimen name="activity_task_description_width">200dp</dimen>
+    <dimen name="activity_task_box_height">35dp</dimen>
     <dimen name="activity_day_box_height">280dp</dimen>
 
     <dimen name="activity_medium_view_height">80dp</dimen>

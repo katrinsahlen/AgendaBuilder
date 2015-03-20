@@ -1,7 +1,6 @@
 package iprog.group7.agendabuilder.android;
 
 import android.app.Activity;
-import android.app.LauncherActivity;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Intent;
@@ -29,9 +28,10 @@ import iprog.group7.agendabuilder.model.AgendaModel;
 public class MainActivity extends Activity {
 
     AgendaModel model;
-    List<String> taskBoxTasks, dayBoxTasks;
+    int currentDay;
+    List<iprog.group7.agendabuilder.model.Activity> taskBoxTasks, dayBoxTasks;
     ListView boxTasksLayout, boxDayLayout;
-    ArrayAdapter<String> adapterBoxTasksLayout, adapterBoxDayLayout;
+    ArrayAdapter<iprog.group7.agendabuilder.model.Activity> adapterBoxTasksLayout, adapterBoxDayLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,14 @@ public class MainActivity extends Activity {
         MainViewClickController mainViewClickController = new MainViewClickController(model, dayView);
         MainViewDragController mainViewDragController = new MainViewDragController(model, dayView, taskView);
 
+        currentDay = 1;
+        model.addDay(8, 0);
         setupActivities();
 
     }
 
     private void setupActivities() {
+        // Activities added for testing
         model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Demo", "Demo descr", 30, 1));
         model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Brainstorming", "Brainstorming descr", 60, 2));
         model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("QA session", "QA session descr", 20, 3));
@@ -59,17 +62,15 @@ public class MainActivity extends Activity {
 
         List<iprog.group7.agendabuilder.model.Activity> parkedActivities = model.getParkedActivites();
 
-        taskBoxTasks = new ArrayList<>();
         dayBoxTasks = new ArrayList<>();
-        for (iprog.group7.agendabuilder.model.Activity a : parkedActivities) {
-            taskBoxTasks.add(a.getName());
-        }
 
         boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
         boxDayLayout = (ListView) findViewById(R.id.box_day_layout);
 
-        adapterBoxTasksLayout = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, taskBoxTasks);
-        adapterBoxDayLayout = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dayBoxTasks);
+        adapterBoxDayLayout = new TaskArrayAdapter(this, android.R.layout.simple_list_item_1, dayBoxTasks);
+        adapterBoxTasksLayout = new TaskArrayAdapter(this, android.R.layout.simple_list_item_1, model.getParkedActivites());
+        // adapterBoxDayLayout = new TaskArrayAdapter(this, android.R.layout.simple_list_item_1, model.getDay(currentDay).getActivities());
+
         boxTasksLayout.setAdapter(adapterBoxTasksLayout);
         boxDayLayout.setAdapter(adapterBoxDayLayout);
 
@@ -151,18 +152,18 @@ public class MainActivity extends Activity {
                     return true;
                 case DragEvent.ACTION_DROP:
                     // ClipData.Item item = event.getClipData().getItemAt(0);
-                    Object item = event.getLocalState();
-                    String task = (String) item;
+                    iprog.group7.agendabuilder.model.Activity item = (iprog.group7.agendabuilder.model.Activity) event.getLocalState();
+                    // String task = (String) item;
                     if (v == boxTasksLayout) {
-                        if (!taskBoxTasks.contains(task)) {
+                        /** if (!taskBoxTasks.contains(task)) {
                             taskBoxTasks.add(task);
                             dayBoxTasks.remove(task);
-                        }
+                        } */
                     } else if (v == boxDayLayout) {
-                        if (!dayBoxTasks.contains(task)) {
+                        /** if (!dayBoxTasks.contains(task)) {
                             dayBoxTasks.add(task);
                             taskBoxTasks.remove(task);
-                        }
+                        } */
                     }
                     adapterBoxDayLayout.notifyDataSetChanged();
                     adapterBoxTasksLayout.notifyDataSetChanged();

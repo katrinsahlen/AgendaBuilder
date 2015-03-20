@@ -45,6 +45,12 @@ public class Day extends Observable {
         return getStart() + getTotalLength();
     }
 
+    /**
+     * returns a list of all activities for the day
+     */
+    public List<Activity> getActivities() {
+        return activities;
+    }
 
     /**
      * returns the length (in minutes) of activities of certain type
