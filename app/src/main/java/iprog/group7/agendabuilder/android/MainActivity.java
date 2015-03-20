@@ -43,7 +43,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         currentDayIndex = 1;
 
         // Instantiate views
-        DayView dayView = new DayView(findViewById(R.id.page_main_view_id), model);
+        dayView = new DayView(findViewById(R.id.page_main_view_id), model);
 
         dayView.addDay.setOnClickListener(this);
         dayView.previousDay.setOnClickListener(this);
