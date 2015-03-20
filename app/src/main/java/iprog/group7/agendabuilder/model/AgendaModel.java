@@ -54,6 +54,13 @@ public class AgendaModel extends Observable {
     }
 
     /**
+     * return parked activities
+     */
+    public List<Activity> getParkedActivites() {
+        return parkedActivites;
+    }
+
+    /**
      * remove an activity on provided position from parked activites
      */
     public Activity removeParkedActivity(int position) {

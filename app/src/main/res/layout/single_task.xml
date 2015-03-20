@@ -1,12 +1,12 @@
-<LinearLayout
-    android:id="@+id/task_box_framelayout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_gravity="top"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_minimal_margin"
+    android:layout_marginTop="@dimen/activity_minimal_margin"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/activity_medium_text"
-    tools:context="iprog.group7.agendabuilder.android.MainActivity$TaskFragment">
+    android:layout_height="@dimen/activity_task_box_height"
+    android:layout_gravity="top">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -16,6 +16,7 @@
         <TextView
             android:id="@+id/task_length"
             android:text="08:00"
+            android:gravity="center"
             android:layout_gravity="start"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
