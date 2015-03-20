@@ -33,8 +33,8 @@ public class AddTaskViewController implements View.OnClickListener {
         this.model = model;
         this.view = view;
 
-
-        if (v == view.btnSave) {
+        //save NEW task
+        if (v == view.btnSave && view.getSource().equals("new")) {
             //add attributes to activity
 
             //add name
@@ -52,9 +52,28 @@ public class AddTaskViewController implements View.OnClickListener {
             //return to main
             Intent intent = new Intent(v.getContext(), MainActivity.class);
             v.getContext().startActivity(intent);
-
-
         }
+/*
+        //save EDIT/existing task
+        if (v == view.btnSave && view.getSource().equals("edit")) {
+            //add attributes to activity
+
+            //add name
+            a.setName(view.txtName.getText().toString());
+            //add length
+            a.setLength(Integer.parseInt(view.txtLength.getText().toString()));
+            //add type
+            a.setType(view.spinnerType.getSelectedItemPosition()+1);
+            //add description
+            a.setDescription(view.txtDescription.getText().toString());
+
+            //finally add activity to AgendaModel
+            model.addParkedActivity(a);
+
+            //return to main
+            Intent intent = new Intent(v.getContext(), MainActivity.class);
+            v.getContext().startActivity(intent);
+        }*/
 
     }
 }
