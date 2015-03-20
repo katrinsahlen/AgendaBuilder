@@ -21,6 +21,7 @@ import iprog.group7.agendabuilder.android.view.MainViewClickController;
 import iprog.group7.agendabuilder.android.view.MainViewDragController;
 import iprog.group7.agendabuilder.android.view.TaskView;
 import iprog.group7.agendabuilder.model.AgendaModel;
+import iprog.group7.agendabuilder.model.Day;
 
 /**
  * The activity controlling views AddDayView, DayView and TaskView
@@ -28,8 +29,7 @@ import iprog.group7.agendabuilder.model.AgendaModel;
 public class MainActivity extends Activity {
 
     AgendaModel model;
-    int currentDay;
-    List<iprog.group7.agendabuilder.model.Activity> taskBoxTasks, dayBoxTasks;
+    Day currentDay;
     ListView boxTasksLayout, boxDayLayout;
     ArrayAdapter<iprog.group7.agendabuilder.model.Activity> adapterBoxTasksLayout, adapterBoxDayLayout;
 
@@ -39,16 +39,15 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         model = ((AgendaBuilderApplication) this.getApplication()).getModel();
+        currentDay = model.addDay(8, 0);
 
         // Instantiate views
-        DayView dayView = new DayView(findViewById(R.id.page_main_view_id), model);
+        DayView dayView = new DayView(findViewById(R.id.page_main_view_id), model, currentDay);
         TaskView taskView = new TaskView(findViewById(R.id.page_main_view_id), model);
 
         MainViewClickController mainViewClickController = new MainViewClickController(model, dayView);
         MainViewDragController mainViewDragController = new MainViewDragController(model, dayView, taskView);
 
-        currentDay = 1;
-        model.addDay(8, 0);
         setupActivities();
 
     }
@@ -60,16 +59,11 @@ public class MainActivity extends Activity {
         model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("QA session", "QA session descr", 20, 3));
         model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Coffee break", "Coffee break descr", 10, 4));
 
-        List<iprog.group7.agendabuilder.model.Activity> parkedActivities = model.getParkedActivites();
-
-        dayBoxTasks = new ArrayList<>();
-
         boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
         boxDayLayout = (ListView) findViewById(R.id.box_day_layout);
 
-        adapterBoxDayLayout = new TaskArrayAdapter(this, android.R.layout.simple_list_item_1, dayBoxTasks);
-        adapterBoxTasksLayout = new TaskArrayAdapter(this, android.R.layout.simple_list_item_1, model.getParkedActivites());
-        // adapterBoxDayLayout = new TaskArrayAdapter(this, android.R.layout.simple_list_item_1, model.getDay(currentDay).getActivities());
+        adapterBoxTasksLayout = new TaskArrayAdapter(model, currentDay, this, android.R.layout.simple_list_item_1, model.getParkedActivites());
+        adapterBoxDayLayout = new TaskArrayAdapter(model, currentDay, this, android.R.layout.simple_list_item_1, currentDay.getActivities());
 
         boxTasksLayout.setAdapter(adapterBoxTasksLayout);
         boxDayLayout.setAdapter(adapterBoxDayLayout);
@@ -151,19 +145,32 @@ public class MainActivity extends Activity {
                     v.invalidate();
                     return true;
                 case DragEvent.ACTION_DROP:
-                    // ClipData.Item item = event.getClipData().getItemAt(0);
                     iprog.group7.agendabuilder.model.Activity item = (iprog.group7.agendabuilder.model.Activity) event.getLocalState();
-                    // String task = (String) item;
+                    List<iprog.group7.agendabuilder.model.Activity> parkedActivities, dayActivities;
+                    parkedActivities = model.getParkedActivites();
+                    dayActivities = currentDay.getActivities();
                     if (v == boxTasksLayout) {
-                        /** if (!taskBoxTasks.contains(task)) {
-                            taskBoxTasks.add(task);
-                            dayBoxTasks.remove(task);
-                        } */
+                        if (!parkedActivities.contains(item)) {
+                            int currentPosition = 1;
+                            for (iprog.group7.agendabuilder.model.Activity a : dayActivities) {
+                                if (a == item) {
+                                    break;
+                                }
+                                currentPosition++;
+                            }
+                            model.moveActivity(currentDay, currentPosition, null, parkedActivities.size());
+                        }
                     } else if (v == boxDayLayout) {
-                        /** if (!dayBoxTasks.contains(task)) {
-                            dayBoxTasks.add(task);
-                            taskBoxTasks.remove(task);
-                        } */
+                        if (!dayActivities.contains(item)) {
+                            int currentPosition = 0;
+                            for (iprog.group7.agendabuilder.model.Activity a : parkedActivities) {
+                                if (a == item) {
+                                    break;
+                                }
+                                currentPosition++;
+                            }
+                            model.moveActivity(null, currentPosition, currentDay, dayActivities.size());
+                        }
                     }
                     adapterBoxDayLayout.notifyDataSetChanged();
                     adapterBoxTasksLayout.notifyDataSetChanged();
