@@ -24,12 +24,12 @@ public class AgendaModel extends Observable {
     }
 
     public void setCurrentDayIndex(int day) {
-        currentDayIndex = day;
+        currentDayIndex = day-1;
         notifyObservers();
     }
 
     public int getCurrentDayIndex() {
-        return currentDayIndex;
+        return currentDayIndex+1;
     }
 
     /**

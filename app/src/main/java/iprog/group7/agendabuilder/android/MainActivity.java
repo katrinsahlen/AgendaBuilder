@@ -16,9 +16,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import iprog.group7.agendabuilder.android.view.DayView;
-import iprog.group7.agendabuilder.android.view.MainViewClickController;
 import iprog.group7.agendabuilder.model.AgendaModel;
-import iprog.group7.agendabuilder.model.Day;
 
 /**
  * The activity controlling views AddDayView, DayView and TaskView
@@ -50,8 +48,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         dayView.addDay.setOnClickListener(this);
         dayView.previousDay.setOnClickListener(this);
         dayView.nextDay.setOnClickListener(this);
-
-        // MainViewClickController mainViewClickController = new MainViewClickController(model, dayView);
 
         // The following section creates the lists/boxes of tasks and sets adapters, to update them.
         boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
@@ -135,7 +131,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         onPause();
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
