@@ -54,6 +54,12 @@ public class AddTaskView implements Observer{
         //Description
         this.txtDescription = (EditText) view.findViewById(R.id.txtDescription);
 
+        //check if any data needs to be loaded (if editing activity)
+        if (source.equals("edit"))
+        {
+            //load data from object
+            //TODO: load data
+        }
 
     }
 
