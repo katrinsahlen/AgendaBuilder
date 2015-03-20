@@ -28,6 +28,17 @@ public class AgendaModel extends Observable {
         return days.get(index-1);
     }
 
+    public int getDayIndex(Day day) {
+        int i = 0;
+        for (Day d : days) {
+            if (d == day) {
+                return i;
+            }
+            i++;
+        }
+        return 0;
+    }
+
     /**
      * returns the number of days added to the model
      */

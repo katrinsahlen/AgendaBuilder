@@ -87,73 +87,75 @@
             <FrameLayout
                 android:layout_width="@dimen/activity_text_box_width"
                 android:layout_height="@dimen/activity_text_view_height"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_gravity="top|end">
+                android:layout_marginStart="@dimen/activity_medium_view_height"
+                android:layout_marginLeft="@dimen/activity_medium_view_height"
+                android:layout_gravity="top|start">
 
-                <TextView
-                    android:layout_width="@dimen/activity_medium_view_height"
-                    android:layout_height="@dimen/activity_small_text_background"
-                    android:layout_gravity="top|start"
-                    android:textSize="@dimen/activity_small_text"
-                    android:text="@string/start_time"/>
                 <LinearLayout
-                    android:layout_width="@dimen/activity_start_time_box_width"
-                    android:layout_height="@dimen/activity_medium_text"
-                    android:layout_gravity="top|center_horizontal"
-                    android:gravity="center_horizontal">
-                    <EditText
-                        android:id="@+id/start_time_hour"
-                        android:layout_width="@dimen/activity_start_time_part_width"
-                        android:layout_height="match_parent"
-                        android:gravity="end"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:ems="10"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text=":"/>
-                    <EditText
-                        android:id="@+id/start_time_minute"
-                        android:layout_width="@dimen/activity_start_time_part_width"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="start"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:ems="10"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="@dimen/activity_medium_view_height"
+                            android:layout_height="@dimen/activity_small_text_background"
+                            android:layout_gravity="top|start"
+                            android:textSize="@dimen/activity_small_text"
+                            android:text="@string/start_time"/>
+                        <EditText
+                            android:id="@+id/start_time"
+                            android:layout_width="@dimen/activity_start_time_box_width"
+                            android:layout_height="@dimen/activity_start_time_box_height"
+                            android:layout_gravity="top|center_horizontal"
+                            android:textSize="@dimen/activity_small_text"
+                            android:inputType="time"
+                            android:text="00:00" />
+                        </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="@dimen/activity_medium_view_height"
+                            android:layout_height="@dimen/activity_small_text_background"
+                            android:layout_gravity="center_vertical|start"
+                            android:textSize="@dimen/activity_small_text"
+                            android:text="@string/end_time"/>
+                        <TextView
+                            android:id="@+id/end_time"
+                            android:layout_width="@dimen/activity_start_time_box_width"
+                            android:layout_height="@dimen/activity_small_text_background"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:textSize="@dimen/activity_small_text"
+                            android:text="00:00"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="@dimen/activity_medium_view_height"
+                            android:layout_height="@dimen/activity_small_text_background"
+                            android:layout_gravity="bottom|start"
+                            android:textSize="@dimen/activity_small_text"
+                            android:text="@string/total_length"/>
+                        <TextView
+                            android:id="@+id/total_length"
+                            android:layout_width="@dimen/activity_start_time_box_width"
+                            android:layout_height="@dimen/activity_small_text_background"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:textSize="@dimen/activity_small_text"
+                            android:text="0 min"/>
+                    </LinearLayout>
+
                 </LinearLayout>
-
-
-                <TextView
-                    android:layout_width="@dimen/activity_medium_view_height"
-                    android:layout_height="@dimen/activity_small_text_background"
-                    android:layout_gravity="center_vertical|start"
-                    android:textSize="@dimen/activity_small_text"
-                    android:text="@string/end_time"/>
-                <TextView
-                    android:id="@+id/end_time"
-                    android:layout_width="@dimen/activity_start_time_box_width"
-                    android:layout_height="@dimen/activity_small_text_background"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:textSize="@dimen/activity_small_text"
-                    android:text="00:00"/>
-
-                <TextView
-                    android:layout_width="@dimen/activity_medium_view_height"
-                    android:layout_height="@dimen/activity_small_text_background"
-                    android:layout_gravity="bottom|start"
-                    android:textSize="@dimen/activity_small_text"
-                    android:text="@string/total_length"/>
-                <TextView
-                    android:id="@+id/total_length"
-                    android:layout_width="@dimen/activity_start_time_box_width"
-                    android:layout_height="@dimen/activity_small_text_background"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:textSize="@dimen/activity_small_text"
-                    android:text="0 min"/>
 
                 <ImageView
                     android:layout_width="@dimen/activity_text_view_height"

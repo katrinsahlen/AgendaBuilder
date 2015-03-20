@@ -22,7 +22,7 @@ public class DayView implements Observer {
     Day day;
     Button addDay, previousDay, nextDay;
     TextView whichDayTitle, endTime, totalLength;
-    EditText startTimeHour, startTimeMinute;
+    EditText startTime;
 
     public DayView(View view, AgendaModel model, Day day) {
 
@@ -30,11 +30,10 @@ public class DayView implements Observer {
         this.model = model;
         this.day = day;
         model.addObserver(this);
-        // day.addObserver(this);
+        day.addObserver(this);
 
         whichDayTitle = (TextView) view.findViewById(R.id.which_day_title);
-        startTimeHour = (EditText) view.findViewById(R.id.start_time_hour);
-        startTimeMinute = (EditText) view.findViewById(R.id.start_time_minute);
+        startTime = (EditText) view.findViewById(R.id.start_time);
         endTime = (TextView) view.findViewById(R.id.end_time);
         totalLength = (TextView) view.findViewById(R.id.total_length);
 
@@ -47,19 +46,14 @@ public class DayView implements Observer {
     }
 
     public void update(Observable observable, Object object) {
-        // whichDayTitle.setText("Day" + model.);
         timeSetup();
     }
 
     private void timeSetup() {
-        int timesStart = day.getStart();
-        int timeStartHour = timesStart / 60;
-        int timeStartMinute = timesStart % 60;
+        whichDayTitle.setText("Day" + model.getDayIndex(day));
+        String[] timesStart = addZeroToTime(day.getEnd());
         String[] timesEnd = addZeroToTime(day.getEnd());
-
-        startTimeHour.setText(String.valueOf(timeStartHour));
-        startTimeMinute.setText(String.valueOf(timeStartMinute));
-
+        startTime.setText(timesStart[0] + ":" + timesStart[1]);
         endTime.setText(timesEnd[0] + ":" + timesEnd[1]);
         totalLength.setText(day.getTotalLength() + " min");
     }
