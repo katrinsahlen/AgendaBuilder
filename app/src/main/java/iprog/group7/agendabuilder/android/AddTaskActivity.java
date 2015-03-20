@@ -65,8 +65,8 @@ public class AddTaskActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
     public void returnToMain(View v){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        // Intent intent = new Intent(this, MainActivity.class);
+        // startActivity(intent);
         finish();
     }
 }
