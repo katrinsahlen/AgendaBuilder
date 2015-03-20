@@ -15,4 +15,17 @@
     <string name="total_length">Total length:</string>
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
 
+    <string-array name="type_array">
+        <item>Presentation</item>
+        <item>Group Work</item>
+        <item>Discussion</item>
+        <item>Break</item>
+    </string-array>
+
+    <string-array name="type_array_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 </resources>

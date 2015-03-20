@@ -4,7 +4,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="iprog.group7.agendabuilder.android.AddTaskActivity">
+    android:id="@+id/activity_add_task_id"
+    tools:context=".AddTaskActivity">
+
 
     <TextView
         android:layout_width="121dp"
@@ -56,13 +58,14 @@
         <Spinner
             android:layout_width="353dp"
             android:layout_height="66dp"
-            android:id="@+id/ddlType"
-            android:spinnerMode="dropdown" />
+            android:id="@+id/spinnerType"
+            android:spinnerMode="dropdown"
+            android:entries="@array/type_array"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="202dp"
-            android:id="@+id/txtdescription"
+            android:id="@+id/txtDescription"
             android:hint="Description" />
 
         <LinearLayout
@@ -72,18 +75,17 @@
             android:gravity="right">
 
             <Button
-                android:onClick="completeAddTask"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Cancel"
-                android:id="@+id/btnCancel" />
+                android:id="@+id/btnCancel"
+                android:onClick="returnToMain"/>
 
             <Button
-                android:onClick="cancelAddTask"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Save"
-                android:id="@+id/btnSave" />
+                android:id="@+id/btnSave"/>
         </LinearLayout>
 
     </LinearLayout>

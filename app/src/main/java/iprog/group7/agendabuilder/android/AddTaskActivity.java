@@ -1,22 +1,45 @@
 package iprog.group7.agendabuilder.android;
 
 import android.app.Activity;
+
+import android.content.Intent;
+
 import android.support.v7.app.ActionBarActivity;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import iprog.group7.agendabuilder.android.R;
+import iprog.group7.agendabuilder.android.view.AddTaskView;
+import iprog.group7.agendabuilder.android.view.AddTaskViewController;
+import iprog.group7.agendabuilder.model.AgendaModel;
 
 /**
  * The activity controlling view AddTaskView
  */
 public class AddTaskActivity extends Activity {
 
+    AddTaskView mainView;
+    String src ="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        //get source msg (new or edit)
+        Intent intent = getIntent();
+        src = intent.getStringExtra(MainActivity.SOURCE);
+
+        //set model & view
+        AgendaModel model = ((AgendaBuilderApplication) this.getApplication()).getModel();
+        mainView = new AddTaskView(findViewById(R.id.activity_add_task_id), model, src);
+        //dump source into view
+        //mainView.setSource(src);
+        //set controller
+        AddTaskViewController clickController = new AddTaskViewController(model, mainView);
     }
 
 
@@ -40,5 +63,10 @@ public class AddTaskActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void returnToMain(View v){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
