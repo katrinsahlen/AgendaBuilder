@@ -16,7 +16,7 @@ public class AddTaskViewController implements View.OnClickListener {
 
     AddTaskView view;
     AgendaModel model;
-    Activity a = new Activity("a", "a", 5, 1);
+    Activity a = new Activity("(Empty)", "(Empty)", 30, 1);
     AddTaskActivity act;
 
 

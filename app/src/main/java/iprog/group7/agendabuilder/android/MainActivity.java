@@ -3,6 +3,7 @@ package iprog.group7.agendabuilder.android;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +21,9 @@ import iprog.group7.agendabuilder.model.AgendaModel;
  * The activity controlling views AddDayView, DayView and TaskView
  */
 public class MainActivity extends Activity {
+
+
+    public final static String SOURCE = "";
 
     AgendaModel model;
     // Set<TaskFragment> fragments;
@@ -49,23 +53,30 @@ public class MainActivity extends Activity {
 
 
     public void addTask(View view) {
-        // Intent intent = new Intent(this, AddTaskActivity.class);
-        // startActivity(intent);
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        startActivity(intent);
+        String source = "new";
+        intent.putExtra(SOURCE, source);
+        // onResume();
+        finish();
 
-        // Create new fragment
-        // FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction = getFragmentManager().beginTransaction();
-        TaskFragment fragment = new TaskFragment();
-        // fragments.add(fragment);
 
-        // Add new fragment to the transaction and commit
-        transaction.add(R.id.box_tasks_layout, fragment);
-        // for (TaskFragment f : fragments) {
-            // transaction.add(R.id.box_tasks_layout, f);
-        // }
 
-        // Commit the transaction
-        transaction.commit();
+        /**
+         // Create new fragment
+         // FragmentTransaction transaction = getFragmentManager().beginTransaction();
+         transaction = getFragmentManager().beginTransaction();
+         TaskFragment fragment = new TaskFragment();
+         // fragments.add(fragment);
+
+         // Add new fragment to the transaction and commit
+         transaction.add(R.id.box_tasks_layout, fragment);
+         // for (TaskFragment f : fragments) {
+         // transaction.add(R.id.box_tasks_layout, f);
+         // }
+
+         // Commit the transaction
+         transaction.commit(); */
 
     }
 
