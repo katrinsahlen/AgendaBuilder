@@ -28,9 +28,6 @@ public class AddTaskView implements Observer{
 
     Button btnCancel, btnSave;
     EditText txtName, txtLength, txtDescription;
-
-
-
     // Selection of the spinner
     Spinner spinnerType;
 
@@ -39,8 +36,6 @@ public class AddTaskView implements Observer{
 
         btnCancel = (Button) view.findViewById(R.id.btnCancel);
         btnSave = (Button) view.findViewById(R.id.btnSave);
-
-
 
         //observer
         model.addObserver(this);
@@ -54,7 +49,7 @@ public class AddTaskView implements Observer{
         //Type list - completed using xml string
         spinnerType = (Spinner) view.findViewById(R.id.spinnerType);
         //Description
-        txtDescription = (EditText) view.findViewById(R.id.txtdescription);
+        txtDescription = (EditText) view.findViewById(R.id.txtDescription);
     }
 
     @Override

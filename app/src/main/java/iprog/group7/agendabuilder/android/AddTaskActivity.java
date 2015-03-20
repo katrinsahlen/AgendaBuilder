@@ -1,7 +1,7 @@
 package iprog.group7.agendabuilder.android;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +12,7 @@ import iprog.group7.agendabuilder.android.R;
 /**
  * The activity controlling view AddTaskView
  */
-public class AddTaskActivity extends ActionBarActivity {
+public class AddTaskActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,11 +10,13 @@ import iprog.group7.agendabuilder.android.MainActivity;
 import iprog.group7.agendabuilder.model.Activity;
 import iprog.group7.agendabuilder.model.AgendaModel;
 
+
 public class AddTaskViewController implements View.OnClickListener {
 
     AddTaskView view;
     AgendaModel model;
     Activity a;
+    AddTaskActivity act;
 
 
     public AddTaskViewController(AgendaModel model, AddTaskView view) {
@@ -22,7 +24,6 @@ public class AddTaskViewController implements View.OnClickListener {
         this.view = view;
 
         //listeners
-        view.btnCancel.setOnClickListener(this);
         view.btnSave.setOnClickListener(this);
     }
 
@@ -39,12 +40,16 @@ public class AddTaskViewController implements View.OnClickListener {
             //add length
             a.setLength(Integer.parseInt(view.txtLength.getText().toString()));
             //add type
-            //a.setType();
+            a.setType(view.spinnerType.getSelectedItemPosition()+1);
             //add description
             a.setDescription(view.txtDescription.getText().toString());
 
             //finally add activity to AgendaModel
             model.addParkedActivity(a);
+
+            //return to main
+            act.returnToMain(v);
+
         }
 
     }

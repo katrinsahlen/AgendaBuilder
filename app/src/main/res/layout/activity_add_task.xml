@@ -58,12 +58,13 @@
             android:layout_width="353dp"
             android:layout_height="66dp"
             android:id="@+id/spinnerType"
-            android:spinnerMode="dropdown" />
+            android:spinnerMode="dropdown"
+            android:entries="@array/type_array"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="202dp"
-            android:id="@+id/txtdescription"
+            android:id="@+id/txtDescription"
             android:hint="Description" />
 
         <LinearLayout
@@ -83,7 +84,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Save"
-                android:id="@+id/btnSave" />
+                android:id="@+id/btnSave"/>
         </LinearLayout>
 
     </LinearLayout>
