@@ -157,12 +157,6 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="@dimen/activity_text_view_height"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:background="@color/blue"/>
-
             </FrameLayout>
 
             <!-- The box surrounding the tasks of a day -->

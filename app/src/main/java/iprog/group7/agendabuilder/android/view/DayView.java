@@ -19,18 +19,15 @@ public class DayView implements Observer {
 
     View view;
     AgendaModel model;
-    Day day;
-    Button addDay, previousDay, nextDay;
+    public Button addDay, previousDay, nextDay;
     TextView whichDayTitle, endTime, totalLength;
     EditText startTime;
 
-    public DayView(View view, AgendaModel model, Day day) {
+    public DayView(View view, AgendaModel model) {
 
         this.view = view;
         this.model = model;
-        this.day = day;
         model.addObserver(this);
-        day.addObserver(this);
 
         whichDayTitle = (TextView) view.findViewById(R.id.which_day_title);
         startTime = (EditText) view.findViewById(R.id.start_time);
@@ -42,15 +39,16 @@ public class DayView implements Observer {
         nextDay = (Button) view.findViewById(R.id.next_day_button);
 
         timeSetup();
-
     }
 
     public void update(Observable observable, Object object) {
         timeSetup();
     }
 
-    private void timeSetup() {
-        whichDayTitle.setText("Day" + model.getDayIndex(day));
+    public void timeSetup() {
+        int currentDay = model.getCurrentDayIndex();
+        Day day = model.getDay(currentDay);
+        whichDayTitle.setText("Day" + currentDay);
         String[] timesStart = addZeroToTime(day.getEnd());
         String[] timesEnd = addZeroToTime(day.getEnd());
         startTime.setText(timesStart[0] + ":" + timesStart[1]);

@@ -17,22 +17,21 @@ import java.util.List;
 
 import iprog.group7.agendabuilder.android.view.DayView;
 import iprog.group7.agendabuilder.android.view.MainViewClickController;
-import iprog.group7.agendabuilder.android.view.MainViewDragController;
-import iprog.group7.agendabuilder.android.view.TaskView;
 import iprog.group7.agendabuilder.model.AgendaModel;
 import iprog.group7.agendabuilder.model.Day;
 
 /**
  * The activity controlling views AddDayView, DayView and TaskView
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener {
 
 
     public final static String SOURCE = "";
 
     AgendaModel model;
-    Day currentDay;
     ListView boxTasksLayout, boxDayLayout;
+    DayView dayView;
+    int currentDayIndex;
     ArrayAdapter<iprog.group7.agendabuilder.model.Activity> adapterBoxTasksLayout, adapterBoxDayLayout;
 
     @Override
@@ -41,20 +40,25 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         model = ((AgendaBuilderApplication) this.getApplication()).getModel();
-        currentDay = model.addDay(8, 0);
+
+        model.addDay(8, 0);
+        currentDayIndex = 1;
 
         // Instantiate views
-        DayView dayView = new DayView(findViewById(R.id.page_main_view_id), model, currentDay);
-        TaskView taskView = new TaskView(findViewById(R.id.page_main_view_id), model);
+        DayView dayView = new DayView(findViewById(R.id.page_main_view_id), model);
 
-        MainViewClickController mainViewClickController = new MainViewClickController(model, dayView);
-        MainViewDragController mainViewDragController = new MainViewDragController(model, dayView, taskView);
+        dayView.addDay.setOnClickListener(this);
+        dayView.previousDay.setOnClickListener(this);
+        dayView.nextDay.setOnClickListener(this);
 
+        // MainViewClickController mainViewClickController = new MainViewClickController(model, dayView);
+
+        // The following section creates the lists/boxes of tasks and sets adapters, to update them.
         boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
         boxDayLayout = (ListView) findViewById(R.id.box_day_layout);
 
-        adapterBoxTasksLayout = new TaskArrayAdapter(model, currentDay, this, android.R.layout.simple_list_item_1, model.getParkedActivites());
-        adapterBoxDayLayout = new TaskArrayAdapter(model, currentDay, this, android.R.layout.simple_list_item_1, currentDay.getActivities());
+        adapterBoxTasksLayout = new TaskArrayAdapter(model, model.getDay(currentDayIndex), this, android.R.layout.simple_list_item_1, model.getParkedActivites());
+        adapterBoxDayLayout = new TaskArrayAdapter(model, model.getDay(currentDayIndex), this, android.R.layout.simple_list_item_1, model.getDay(currentDayIndex).getActivities());
 
         boxTasksLayout.setAdapter(adapterBoxTasksLayout);
         boxDayLayout.setAdapter(adapterBoxDayLayout);
@@ -84,6 +88,34 @@ public class MainActivity extends Activity {
         super.onResume();
         adapterBoxDayLayout.notifyDataSetChanged();
         adapterBoxTasksLayout.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if (v == dayView.addDay) {
+            model.addDay(8, 0);
+            currentDayIndex = model.getNumberOfDays();
+            model.setCurrentDayIndex(currentDayIndex);
+        }
+        if (model.getNumberOfDays() > 1) {
+            if (v == dayView.previousDay) {
+                if (currentDayIndex > 1) {
+                    currentDayIndex--;
+                } else {
+                    currentDayIndex = model.getNumberOfDays();
+                }
+                model.setCurrentDayIndex(currentDayIndex);
+            }
+            if (v == dayView.nextDay) {
+                if (currentDayIndex < model.getNumberOfDays()) {
+                    currentDayIndex++;
+                }
+                model.setCurrentDayIndex(currentDayIndex);
+            }
+
+        }
+
     }
 
     private void setupActivities() {
@@ -158,7 +190,7 @@ public class MainActivity extends Activity {
                     iprog.group7.agendabuilder.model.Activity item = (iprog.group7.agendabuilder.model.Activity) event.getLocalState();
                     List<iprog.group7.agendabuilder.model.Activity> parkedActivities, dayActivities;
                     parkedActivities = model.getParkedActivites();
-                    dayActivities = currentDay.getActivities();
+                    dayActivities = model.getCurrentDay().getActivities();
                     if (v == boxTasksLayout) {
                         if (!parkedActivities.contains(item)) {
                             int currentPosition = 0;
@@ -168,7 +200,7 @@ public class MainActivity extends Activity {
                                 }
                                 currentPosition++;
                             }
-                            model.moveActivity(currentDay, currentPosition, null, parkedActivities.size());
+                            model.moveActivity(model.getCurrentDay(), currentPosition, null, parkedActivities.size());
                         }
                     } else if (v == boxDayLayout) {
                         if (!dayActivities.contains(item)) {
@@ -179,7 +211,7 @@ public class MainActivity extends Activity {
                                 }
                                 currentPosition++;
                             }
-                            model.moveActivity(null, currentPosition, currentDay, dayActivities.size());
+                            model.moveActivity(null, currentPosition, model.getCurrentDay(), dayActivities.size());
                         }
                     }
                     adapterBoxDayLayout.notifyDataSetChanged();
