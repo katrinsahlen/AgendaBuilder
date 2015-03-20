@@ -72,7 +72,6 @@
 
         <!-- Within this frame the content for DayView could be -->
         <FrameLayout
-            android:id="@+id/day_x_box"
             android:layout_width="match_parent"
             android:layout_height="@dimen/activity_day_box_height"
             android:layout_marginTop="@dimen/activity_activities_box_height">
@@ -104,7 +103,7 @@
                     android:layout_height="@dimen/activity_medium_text"
                     android:layout_gravity="top|center_horizontal"
                     android:inputType="time"
-                    />
+                    android:text="08:00"/>
 
                 <TextView
                     android:layout_width="@dimen/activity_medium_view_height"
@@ -194,26 +193,6 @@
             android:textColor="@color/white"
             android:textSize="@dimen/activity_medium_text"
             android:text="@string/plus_add_day" />
-
-        <!-- Buttons for navigating between days -->
-        <Button
-            android:id="@+id/previous_day_button"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/activity_medium_text"
-            android:layout_gravity="bottom|start"
-            android:background="@color/green"
-            android:textColor="@color/white"
-            android:textSize="@dimen/activity_small_text"
-            android:text="@string/previous_day"/>
-        <Button
-            android:id="@+id/next_day_button"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/activity_medium_text"
-            android:layout_gravity="bottom|end"
-            android:background="@color/green"
-            android:textColor="@color/white"
-            android:textSize="@dimen/activity_small_text"
-            android:text="@string/next_day"/>
 
     </FrameLayout>
 

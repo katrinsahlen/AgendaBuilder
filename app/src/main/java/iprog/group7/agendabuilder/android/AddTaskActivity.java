@@ -1,11 +1,7 @@
 package iprog.group7.agendabuilder.android;
 
 import android.app.Activity;
-
 import android.content.Intent;
-
-import android.support.v7.app.ActionBarActivity;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,9 +21,7 @@ public class AddTaskActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_add_task);
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.SOURCE);
+        setContentView(R.layout.activity_add_task);
 
         AgendaModel model = ((AgendaBuilderApplication) this.getApplication()).getModel();
         mainView = new AddTaskView(findViewById(R.id.activity_add_task_id), model);

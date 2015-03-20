@@ -7,8 +7,6 @@
     <string name="title_activity_add_task">AddTaskActivity</string>
     <string name="plus_add_day">+ Add a day</string>
     <string name="plus_add_activity">+ Add activity</string>
-    <string name="previous_day">Previous</string>
-    <string name="next_day">Next</string>
 
     <string name="start_time">Start time:</string>
     <string name="end_time">End time:</string>
