@@ -105,6 +105,7 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
             model.addDay(8, 0);
             currentDayIndex = model.getNumberOfDays();
             model.setCurrentDayIndex(currentDayIndex);
+            dayView.timeSetup(model);
             changeDayAdapter();
         }
         if (model.getNumberOfDays() > 1) {
@@ -126,6 +127,7 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
                 }
                 model.setCurrentDayIndex(currentDayIndex);
             }
+            dayView.timeSetup(model);
             changeDayAdapter();
         }
     }
