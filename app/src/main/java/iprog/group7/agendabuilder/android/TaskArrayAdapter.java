@@ -20,16 +20,14 @@ import iprog.group7.agendabuilder.model.Day;
 public class TaskArrayAdapter extends ArrayAdapter<Activity> {
 
     AgendaModel model;
-    Day day;
     Context context;
     int resource;
     List<Activity> objects;
     int[] color = {Color.parseColor("#6E78C7"), Color.parseColor("#6BD1C0"), Color.parseColor("#D1BD6E"), Color.parseColor("#C78465")};
 
-    public TaskArrayAdapter(AgendaModel model, Day day, Context context, int resource, List<Activity> objects) {
+    public TaskArrayAdapter(AgendaModel model, Context context, int resource, List<Activity> objects) {
         super(context, resource, objects);
         this.model = model;
-        this.day = day;
         this.context = context;
         this.resource = resource;
         this.objects = objects;
@@ -48,12 +46,13 @@ public class TaskArrayAdapter extends ArrayAdapter<Activity> {
 
         taskBox.setBackgroundColor(color[item.getType()-1]);
         taskBox.setText(item.getName());
+        int currentDayIndex = model.getCurrentDayIndex();
         if (model.getParkedActivites().contains(item)) {
             taskLength.setText(item.getLength() + " min");
         } else {
-            int startTime = day.getStart();
+            int startTime = model.getDay(currentDayIndex).getStart();
             int i = 0;
-            for (Activity activity : day.getActivities()) {
+            for (Activity activity : model.getDay(currentDayIndex).getActivities()) {
                 if (i != position) {
                     startTime += activity.getLength();
                 } else {

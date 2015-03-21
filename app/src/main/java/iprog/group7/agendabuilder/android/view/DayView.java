@@ -19,47 +19,37 @@ public class DayView implements Observer {
 
     View view;
     AgendaModel model;
-    Day day;
-    Button addDay, previousDay, nextDay;
+    public Button addDay, previousDay, nextDay;
     TextView whichDayTitle, endTime, totalLength;
-    EditText startTimeHour, startTimeMinute;
+    EditText startTime;
 
-    public DayView(View view, AgendaModel model, Day day) {
+    public DayView(View view, AgendaModel model) {
 
         this.view = view;
         this.model = model;
-        this.day = day;
         model.addObserver(this);
-        // day.addObserver(this);
 
         whichDayTitle = (TextView) view.findViewById(R.id.which_day_title);
-        startTimeHour = (EditText) view.findViewById(R.id.start_time_hour);
-        startTimeMinute = (EditText) view.findViewById(R.id.start_time_minute);
+        startTime = (EditText) view.findViewById(R.id.start_time);
         endTime = (TextView) view.findViewById(R.id.end_time);
         totalLength = (TextView) view.findViewById(R.id.total_length);
 
         addDay = (Button) view.findViewById(R.id.add_day_button);
         previousDay = (Button) view.findViewById(R.id.previous_day_button);
         nextDay = (Button) view.findViewById(R.id.next_day_button);
-
-        timeSetup();
-
     }
 
     public void update(Observable observable, Object object) {
-        // whichDayTitle.setText("Day" + model.);
-        timeSetup();
+        timeSetup(model);
     }
 
-    private void timeSetup() {
-        int timesStart = day.getStart();
-        int timeStartHour = timesStart / 60;
-        int timeStartMinute = timesStart % 60;
+    public void timeSetup(AgendaModel model) {
+        int currentDay = model.getCurrentDayIndex();
+        Day day = model.getDay(currentDay);
+        whichDayTitle.setText("Day" + currentDay);
+        String[] timesStart = addZeroToTime(day.getEnd());
         String[] timesEnd = addZeroToTime(day.getEnd());
-
-        startTimeHour.setText(String.valueOf(timeStartHour));
-        startTimeMinute.setText(String.valueOf(timeStartMinute));
-
+        startTime.setText(timesStart[0] + ":" + timesStart[1]);
         endTime.setText(timesEnd[0] + ":" + timesEnd[1]);
         totalLength.setText(day.getTotalLength() + " min");
     }

@@ -6,11 +6,13 @@ import java.util.Observable;
 
 /**
  * Content copied from provided Java model, original package se.kth.csc.iprog.agendabuilder.model
+ * Modified by Katrin Nilsson and James Song
  */
 public class AgendaModel extends Observable {
 
     List<Day> days = new ArrayList<Day>();
     List<Activity> parkedActivites = new ArrayList<Activity>();
+    int currentDayIndex;
 
     /**
      * adds create and add a new day to model with starting time (hours and minutes)
@@ -21,11 +23,31 @@ public class AgendaModel extends Observable {
         return d;
     }
 
+    public void setCurrentDayIndex(int day) {
+        currentDayIndex = day-1;
+        notifyObservers();
+    }
+
+    public int getCurrentDayIndex() {
+        return currentDayIndex+1;
+    }
+
     /**
      * returns the day at the provided index. Index provided starts at 1 (day 1)
      */
     public Day getDay(int index) {
         return days.get(index-1);
+    }
+
+    public int getDayIndex(Day day) {
+        int i = 0;
+        for (Day d : days) {
+            if (d == day) {
+                return i;
+            }
+            i++;
+        }
+        return 0;
     }
 
     /**
