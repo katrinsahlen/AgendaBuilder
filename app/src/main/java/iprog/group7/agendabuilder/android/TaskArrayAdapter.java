@@ -15,7 +15,7 @@ import iprog.group7.agendabuilder.model.AgendaModel;
 import iprog.group7.agendabuilder.model.Day;
 
 /**
- * An ArrayAdapter for handling tasks
+ * An ArrayAdapter for handling and updating tasks
  */
 public class TaskArrayAdapter extends ArrayAdapter<Activity> {
 
@@ -35,18 +35,24 @@ public class TaskArrayAdapter extends ArrayAdapter<Activity> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        // Get task/activity
         Activity item = objects.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        // Get layout of a single task
         View row = inflater.inflate(R.layout.single_task, parent, false);
 
         TextView taskBox = (TextView) row.findViewById(R.id.task_box);
         TextView taskLength = (TextView) row.findViewById(R.id.task_length);
 
+        // Update the color of the task depending on the task/activity type.
         taskBox.setBackgroundColor(color[item.getType()-1]);
+        // Set name depending on the task/activity
         taskBox.setText(item.getName());
         int currentDayIndex = model.getCurrentDayIndex();
+        // Check if the task is parked or in day box.
+        // If parked: The left text view should show the length of the task
+        // If in day box: The left text view should show the starting time of the task
         if (model.getParkedActivites().contains(item)) {
             taskLength.setText(item.getLength() + " min");
         } else {

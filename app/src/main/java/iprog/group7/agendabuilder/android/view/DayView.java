@@ -14,6 +14,7 @@ import iprog.group7.agendabuilder.model.Day;
 
 /**
  * View for day schedule, horizontal scrollable
+ * All controller functionalities of this view is found in MainActivity
  */
 public class DayView implements Observer {
 
@@ -21,7 +22,7 @@ public class DayView implements Observer {
     AgendaModel model;
     public Button addDay, previousDay, nextDay;
     TextView whichDayTitle, endTime, totalLength;
-    EditText startTime;
+    public EditText startTime;
 
     public DayView(View view, AgendaModel model) {
 
