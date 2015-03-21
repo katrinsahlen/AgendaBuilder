@@ -1,4 +1,4 @@
-package iprog.group7.agendabuilder.android;
+package iprog.group7.agendabuilder.android.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,12 +10,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import iprog.group7.agendabuilder.android.R;
 import iprog.group7.agendabuilder.model.Activity;
 import iprog.group7.agendabuilder.model.AgendaModel;
 import iprog.group7.agendabuilder.model.Day;
 
 /**
  * An ArrayAdapter for handling and updating tasks
+ * This also represents the view of each task in the boxes/lists
  */
 public class TaskArrayAdapter extends ArrayAdapter<Activity> {
 

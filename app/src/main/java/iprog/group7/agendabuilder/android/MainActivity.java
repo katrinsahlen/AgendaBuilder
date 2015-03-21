@@ -16,6 +16,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import iprog.group7.agendabuilder.android.view.DayView;
+import iprog.group7.agendabuilder.android.view.TaskArrayAdapter;
 import iprog.group7.agendabuilder.model.AgendaModel;
 
 /**
@@ -39,8 +40,10 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
         setContentView(R.layout.activity_main);
 
         model = ((AgendaBuilderApplication) this.getApplication()).getModel();
-        model.addDay(8, 0);
-        model.setCurrentDayIndex(1);
+        if (model.getNumberOfDays() == 0) {
+            model.addDay(8, 0);
+            model.setCurrentDayIndex(1);
+        }
 
         // Instantiate views
         dayView = new DayView(findViewById(R.id.page_main_view_id), model);
@@ -55,32 +58,8 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
         boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
         boxDayLayout = (ListView) findViewById(R.id.box_day_layout);
 
-        // Setup the adapters for the day box and the task box
-        int currentDayIndex = model.getCurrentDayIndex();
-        adapterBoxTasksLayout = new TaskArrayAdapter(model, this, android.R.layout.simple_list_item_1, model.getParkedActivites());
-        adapterBoxDayLayout = new TaskArrayAdapter(model, this, android.R.layout.simple_list_item_1, model.getDay(currentDayIndex).getActivities());
-        boxTasksLayout.setAdapter(adapterBoxTasksLayout);
-        boxDayLayout.setAdapter(adapterBoxDayLayout);
-
-        // Make the day box and tasks box able to listen to drag events
-        dragTaskListener = new DragTaskListener();
-        boxTasksLayout.setOnDragListener(dragTaskListener);
-        boxDayLayout.setOnDragListener(dragTaskListener);
-
-        // Actions performed when the user makes a long clock on a task in a box
-        onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                ClipData data = ClipData.newPlainText("", "");
-                View.DragShadowBuilder shadow = new DragTaskShadowBuilder(view);
-                view.startDrag(data, shadow, parent.getItemAtPosition(position), 0);
-                return true;
-            }
-        };
-
-        // Det the day box and task box to listen to the onLongClickListener
-        boxTasksLayout.setOnItemLongClickListener(onItemLongClickListener);
-        boxDayLayout.setOnItemLongClickListener(onItemLongClickListener);
+        setupBoxAdapters();
+        setupOnLongClickListeners();
 
     }
 
@@ -92,6 +71,30 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
         super.onResume();
         adapterBoxDayLayout.notifyDataSetChanged();
         adapterBoxTasksLayout.notifyDataSetChanged();
+    }
+
+    /**
+     * The user has clicked the button "Add Activity"
+     * @param view
+     */
+    public void addTask(View view) {
+        // Control and edit the day's start time, before adding task
+        String time = dayView.startTime.getText().toString();
+        if (!time.equals(model.getDay(model.getCurrentDayIndex()))) {
+            String times[] = time.split(":");
+            int timeHour = Integer.parseInt(times[0]) * 60;
+            int timeMin = Integer.parseInt(times[1]);
+            if ((timeHour < 24) && (timeMin < 60)) {
+                model.getDay(model.getCurrentDayIndex()).setStart(timeHour + timeMin);
+                dayView.timeSetup(model);
+            }
+        }
+
+        Intent intent = new Intent(this, AddTaskActivity.class);
+
+        intent.putExtra(SOURCE, "new");
+        startActivity(intent);
+        onPause();
     }
 
     /**
@@ -135,6 +138,37 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
         }
     }
 
+    private void setupBoxAdapters() {
+        // Setup the adapters for the day box and the task box
+        int currentDayIndex = model.getCurrentDayIndex();
+        adapterBoxTasksLayout = new TaskArrayAdapter(model, this, android.R.layout.simple_list_item_1, model.getParkedActivites());
+        adapterBoxDayLayout = new TaskArrayAdapter(model, this, android.R.layout.simple_list_item_1, model.getDay(currentDayIndex).getActivities());
+        boxTasksLayout.setAdapter(adapterBoxTasksLayout);
+        boxDayLayout.setAdapter(adapterBoxDayLayout);
+
+        // Make the day box and tasks box able to listen to drag events
+        dragTaskListener = new DragTaskListener();
+        boxTasksLayout.setOnDragListener(dragTaskListener);
+        boxDayLayout.setOnDragListener(dragTaskListener);
+    }
+
+    private void setupOnLongClickListeners() {
+        // Actions performed when the user makes a long clock on a task in a box
+        onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadow = new DragTaskShadowBuilder(view);
+                view.startDrag(data, shadow, parent.getItemAtPosition(position), 0);
+                return true;
+            }
+        };
+
+        // Det the day box and task box to listen to the onLongClickListener
+        boxTasksLayout.setOnItemLongClickListener(onItemLongClickListener);
+        boxDayLayout.setOnItemLongClickListener(onItemLongClickListener);
+    }
+
     // Update adapter for the day box, since the current day (that is showing) has changed
     private void changeDayAdapter() {
         int currentDayIndex = model.getCurrentDayIndex();
@@ -142,39 +176,6 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
         boxDayLayout.setAdapter(adapterBoxDayLayout);
         boxDayLayout.setOnDragListener(dragTaskListener);
         boxDayLayout.setOnItemLongClickListener(onItemLongClickListener);
-    }
-
-    // Activities added for testing
-    private void setupActivities() {
-        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Demo", "Demo descr", 30, 1));
-        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Brainstorming", "Brainstorming descr", 60, 2));
-        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("QA session", "QA session descr", 20, 3));
-        model.addParkedActivity(new iprog.group7.agendabuilder.model.Activity("Coffee break", "Coffee break descr", 10, 4));
-    }
-
-    /**
-     * The user has clicked the button "Add Activity"
-     * @param view
-     */
-    public void addTask(View view) {
-        // Control and edit the day's start time, before adding task
-        String time = dayView.startTime.getText().toString();
-        if (!time.equals(model.getDay(model.getCurrentDayIndex()))) {
-            String times[] = time.split(":");
-            int timeHour = Integer.parseInt(times[0]) * 60;
-            int timeMin = Integer.parseInt(times[1]);
-            if ((timeHour < 24) && (timeMin < 60)) {
-                model.getDay(model.getCurrentDayIndex()).setStart(timeHour + timeMin);
-                dayView.timeSetup(model);
-            }
-        }
-
-        Intent intent = new Intent(this, AddTaskActivity.class);
-
-        intent.putExtra(SOURCE, "new");
-        startActivity(intent);
-        onPause();
-
     }
 
     @Override
@@ -203,6 +204,7 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
 
     /**
      * Modified example on an OnDragListener from developer.android.com
+     * The class is inside the MainActivity because it needs to be able to access the box layouts
      */
     public class DragTaskListener implements View.OnDragListener {
 
