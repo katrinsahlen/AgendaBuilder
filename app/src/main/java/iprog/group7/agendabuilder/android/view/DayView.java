@@ -47,7 +47,7 @@ public class DayView implements Observer {
         int currentDay = model.getCurrentDayIndex();
         Day day = model.getDay(currentDay);
         whichDayTitle.setText("Day" + currentDay);
-        String[] timesStart = addZeroToTime(day.getEnd());
+        String[] timesStart = addZeroToTime(day.getStart());
         String[] timesEnd = addZeroToTime(day.getEnd());
         startTime.setText(timesStart[0] + ":" + timesStart[1]);
         endTime.setText(timesEnd[0] + ":" + timesEnd[1]);
