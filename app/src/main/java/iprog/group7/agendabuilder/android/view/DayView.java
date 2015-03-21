@@ -37,15 +37,13 @@ public class DayView implements Observer {
         addDay = (Button) view.findViewById(R.id.add_day_button);
         previousDay = (Button) view.findViewById(R.id.previous_day_button);
         nextDay = (Button) view.findViewById(R.id.next_day_button);
-
-        timeSetup();
     }
 
     public void update(Observable observable, Object object) {
-        timeSetup();
+        timeSetup(model);
     }
 
-    public void timeSetup() {
+    public void timeSetup(AgendaModel model) {
         int currentDay = model.getCurrentDayIndex();
         Day day = model.getDay(currentDay);
         whichDayTitle.setText("Day" + currentDay);

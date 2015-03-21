@@ -21,7 +21,7 @@ import iprog.group7.agendabuilder.model.AgendaModel;
 /**
  * The activity controlling views AddDayView, DayView and TaskView
  */
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity  implements View.OnClickListener  {
 
 
     public final static String SOURCE = "";
@@ -29,8 +29,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     AgendaModel model;
     ListView boxTasksLayout, boxDayLayout;
     DayView dayView;
-    int currentDayIndex;
     ArrayAdapter<iprog.group7.agendabuilder.model.Activity> adapterBoxTasksLayout, adapterBoxDayLayout;
+    DragTaskListener dragTaskListener;
+    AdapterView.OnItemLongClickListener onItemLongClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,31 +41,34 @@ public class MainActivity extends Activity implements View.OnClickListener {
         model = ((AgendaBuilderApplication) this.getApplication()).getModel();
 
         model.addDay(8, 0);
-        currentDayIndex = 1;
+        model.setCurrentDayIndex(1);
 
         // Instantiate views
         dayView = new DayView(findViewById(R.id.page_main_view_id), model);
+        dayView.timeSetup(model);
 
         dayView.addDay.setOnClickListener(this);
         dayView.previousDay.setOnClickListener(this);
         dayView.nextDay.setOnClickListener(this);
 
+
         // The following section creates the lists/boxes of tasks and sets adapters, to update them.
         boxTasksLayout = (ListView) findViewById(R.id.box_tasks_layout);
         boxDayLayout = (ListView) findViewById(R.id.box_day_layout);
 
+        int currentDayIndex = model.getCurrentDayIndex();
         adapterBoxTasksLayout = new TaskArrayAdapter(model, this, android.R.layout.simple_list_item_1, model.getParkedActivites());
         adapterBoxDayLayout = new TaskArrayAdapter(model, this, android.R.layout.simple_list_item_1, model.getDay(currentDayIndex).getActivities());
 
         boxTasksLayout.setAdapter(adapterBoxTasksLayout);
         boxDayLayout.setAdapter(adapterBoxDayLayout);
 
-        DragTaskListener dragTaskListener = new DragTaskListener();
+        dragTaskListener = new DragTaskListener();
 
         boxTasksLayout.setOnDragListener(dragTaskListener);
         boxDayLayout.setOnDragListener(dragTaskListener);
 
-        AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+        onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 ClipData data = ClipData.newPlainText("", "");
@@ -89,10 +93,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
+        int currentDayIndex = model.getCurrentDayIndex();
+
         if (v == dayView.addDay) {
             model.addDay(8, 0);
             currentDayIndex = model.getNumberOfDays();
             model.setCurrentDayIndex(currentDayIndex);
+            dayView.timeSetup(model);
+            changeDayAdapter();
         }
         if (model.getNumberOfDays() > 1) {
             if (v == dayView.previousDay) {
@@ -106,12 +114,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (v == dayView.nextDay) {
                 if (currentDayIndex < model.getNumberOfDays()) {
                     currentDayIndex++;
+                } else {
+                    currentDayIndex = 1;
                 }
                 model.setCurrentDayIndex(currentDayIndex);
             }
-
+            dayView.timeSetup(model);
+            changeDayAdapter();
         }
+    }
 
+    private void changeDayAdapter() {
+        int currentDayIndex = model.getCurrentDayIndex();
+        adapterBoxDayLayout = new TaskArrayAdapter(model, this, android.R.layout.simple_list_item_1, model.getDay(currentDayIndex).getActivities());
+        boxDayLayout.setAdapter(adapterBoxDayLayout);
+        boxDayLayout.setOnDragListener(dragTaskListener);
+        boxDayLayout.setOnItemLongClickListener(onItemLongClickListener);
     }
 
     private void setupActivities() {
