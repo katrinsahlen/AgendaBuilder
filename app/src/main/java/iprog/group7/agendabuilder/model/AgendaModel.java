@@ -23,11 +23,19 @@ public class AgendaModel extends Observable {
         return d;
     }
 
+    /**
+     * Sets the index of the day which is currently on display
+     * @param day
+     */
     public void setCurrentDayIndex(int day) {
         currentDayIndex = day-1;
         notifyObservers();
     }
 
+    /**
+     * returns the id of the day that is currently on display
+     * @return
+     */
     public int getCurrentDayIndex() {
         return currentDayIndex+1;
     }
