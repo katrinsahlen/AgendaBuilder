@@ -79,16 +79,7 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
      */
     public void addTask(View view) {
         // Control and edit the day's start time, before adding task
-        String time = dayView.startTime.getText().toString();
-        if (!time.equals(model.getDay(model.getCurrentDayIndex()))) {
-            String times[] = time.split(":");
-            int timeHour = Integer.parseInt(times[0]) * 60;
-            int timeMin = Integer.parseInt(times[1]);
-            if ((timeHour < 24) && (timeMin < 60)) {
-                model.getDay(model.getCurrentDayIndex()).setStart(timeHour + timeMin);
-                dayView.timeSetup(model);
-            }
-        }
+        setupDayStart();
 
         Intent intent = new Intent(this, AddTaskActivity.class);
 
@@ -104,6 +95,9 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
     @Override
     public void onClick(View v) {
 
+        // Save changed time in start time view
+        setupDayStart();
+
         int currentDayIndex = model.getCurrentDayIndex();
 
         // The user has clicked "Add day"
@@ -111,7 +105,6 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
             model.addDay(8, 0);
             currentDayIndex = model.getNumberOfDays();
             model.setCurrentDayIndex(currentDayIndex);
-            dayView.timeSetup(model);
             changeDayAdapter();
         }
         if (model.getNumberOfDays() > 1) {
@@ -133,8 +126,20 @@ public class MainActivity extends Activity  implements View.OnClickListener  {
                 }
                 model.setCurrentDayIndex(currentDayIndex);
             }
-            dayView.timeSetup(model);
             changeDayAdapter();
+        }
+    }
+
+    private void setupDayStart() {
+        int currentDayIndex = model.getCurrentDayIndex();
+        int oldTime = model.getDay(currentDayIndex).getStart();
+        String[] newTime = dayView.startTime.getText().toString().split(":");
+        int newHour = Integer.parseInt(newTime[0]) * 60;
+        int newMin = Integer.parseInt(newTime[1]);
+
+        if ((oldTime != (newHour + newMin)) && (newHour / 60 < 24) && (newMin < 60)) {
+            model.getDay(currentDayIndex).setStart(newHour + newMin);
+            dayView.timeSetup(model);
         }
     }
 
